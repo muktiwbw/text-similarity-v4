@@ -1,0 +1,3 @@
+Filtering dapat menggunakan algoritma Stoplist (membuang kata yang kurang penting) atau Wordlist (menyimpan kata penting).
+
+Proses filtering dapat dilakukan dengan algoritma Stoplist, yaitu algoritma untuk membuang kata yang kurang penting atau Wordlist, yaitu algoritma untuk menyimpan kata penting.

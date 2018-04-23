@@ -1,0 +1,5 @@
+$(function(){
+
+    $('.sidenav').sidenav();
+
+})

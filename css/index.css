@@ -1,0 +1,18 @@
+a.brand-logo{
+    padding: 0 15px;
+}
+
+.custom-nav{
+    background: none;
+    background-color: none;
+    box-shadow: none;
+}
+
+#banner>h1{
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.banner-navigator{
+    cursor: pointer;
+}
