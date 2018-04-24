@@ -21,36 +21,84 @@
     </nav>
     <div class="container">
         <div class="row">
-            <div class="input-field col s12">
-                <textarea id="text1" class="materialize-textarea"></textarea>
-                <label for="textarea1">Dokumen Uji</label>
-            </div>
-            <div class="input-field col s12">
-                <textarea id="text2" class="materialize-textarea"></textarea>
-                <label for="textarea1">Dokumen Pembanding</label>
-            </div>
-        </div>
-        <div class="row">
             <div class="col s12">
-                <p>
-                    <label>
-                        <input type="radio" class="algorithm" name="algorithm" value="rabinkarp" checked><span>Rabin-Karp</span>
-                    </label>
-                </p>
-                <p>
-                    <label>
-                        <input type="radio" class="algorithm" name="algorithm" value="winnowing"><span>Winnowing</span>
-                    </label>
-                </p>
-                <p>
-                    <label>
-                        <input type="radio" class="algorithm" name="algorithm" value="levenshtein"><span>Levenshtein Distance</span>
-                    </label>
-                </p>
+                <h4 id="form-title">Calculate Rabin-Karp</h4>
             </div>
         </div>
-        <button id="calculate">Calculate</button>
-        <p id="result">Similarity rate: </p>
+        <div id="main-form" class="row">
+            <div class="col s12">
+                <div class="input-field col s12">
+                    <textarea id="text1" class="materialize-textarea"></textarea>
+                    <label for="textarea1">Dokumen Uji</label>
+                </div>
+                <div class="input-field col s12">
+                    <textarea id="text2" class="materialize-textarea"></textarea>
+                    <label for="textarea1">Dokumen Pembanding</label>
+                </div>
+                <div class="col s12">
+                    <p>
+                        <label>
+                            <input type="radio" class="algorithm" name="algorithm" value="rabinkarp" checked><span>Rabin-Karp</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input type="radio" class="algorithm" name="algorithm" value="winnowing"><span>Winnowing</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input type="radio" class="algorithm" name="algorithm" value="levenshtein"><span>Levenshtein Distance</span>
+                        </label>
+                    </p>
+                </div>
+                <div class="col s12 right-align">
+                    <button id="calculate" class="waves-effect waves-light btn">Calculate</button>
+                </div>
+            </div>
+        </div>
+        <div id="minimized-main-form" class="row">
+            <div class="col s12 center-align">
+                <a id="minimized-button" class="btn-floating btn-large waves-effect waves-light teal lighten-2"><i class="material-icons">keyboard_arrow_down</i></a>
+            </div>
+        </div>
+        <div id="result-window" class="row">
+            <div class="col s12">
+                <h5 id="result"></h5>
+            </div>
+            <div class="col s12">
+                <h5>Preprocessing</h5>
+                <div class="row">
+                    <div class="col s6">
+                        <h6>Teks Uji Awal</h6>
+                        <p id="text-raw-1" class="text-container"></p>
+                    </div>
+                    <div class="col s6">
+                        <h6>Teks Uji Akhir</h6>
+                        <p id="text-preprocessed-1" class="text-container"></p>
+                    </div>
+                    <div class="col s6">
+                        <h6>Teks Pembanding Awal</h6>
+                        <p id="text-raw-2" class="text-container"></p>
+                    </div>
+                    <div class="col s6">
+                        <h6>Teks Pembanding Akhir</h6>
+                        <p id="text-preprocessed-2" class="text-container"></p>
+                    </div>
+                </div>
+                <h5>K-Gram</h5>
+                <div class="row">
+                    <div class="col s6">
+                        <h6>K-Gram Teks Uji</h6>
+                        <p id="k-gram-1" class="k-gram-container"></p>
+                    </div>
+                    <div class="col s6">
+                        <h6>K-Gram Teks Pembanding</h6>
+                        <p id="k-gram-2" class="k-gram-container"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     
     <script src="js/jquery-3.3.1.min.js"></script>

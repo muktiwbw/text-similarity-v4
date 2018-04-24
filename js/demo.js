@@ -1,6 +1,47 @@
 $(function(){
 
+    $("input.algorithm").click(function(){
+
+        let name = $(this).next().html()
+
+        $("#form-title").html("Calculate "+name)
+
+    })
+
+    $("#minimized-button").click(function(){
+
+        let arrow = $("#minimized-button").find(".material-icons").html()
+        // alert(arrow)
+        if(arrow == "keyboard_arrow_down"){
+            $("#result-window").fadeToggle("slow", function(){
+                $("#main-form").slideToggle("slow", switchArrowIcon)
+            })
+        }else{
+            $("#main-form").slideToggle("slow", function(){
+                $("#result-window").fadeToggle("slow", switchArrowIcon)
+            })
+        }
+
+    })
+
+    function switchArrowIcon(){
+        if($("#minimized-button").find(".material-icons").html() == "keyboard_arrow_down"){
+            $("#minimized-button").find(".material-icons").html("keyboard_arrow_up")
+        }else{
+            $("#minimized-button").find(".material-icons").html("keyboard_arrow_down")
+        }
+    }
+
+    function incrementalFadeIn(){
+
+    }
+
     $("#calculate").click(function(){
+
+        $("#main-form").slideUp("slow", function(){
+            $("#result-window").fadeIn("slow")
+            $("#minimized-main-form").fadeIn("slow")
+        })
 
         let text1 = $("#text1").val()
         let text2 = $("#text2").val()
@@ -47,6 +88,10 @@ $(function(){
         let similarityResult = similarity.result
 
         $("#result").html("Similarity rate: "+similarityResult+"%")
+        $("#text-raw-1").html(text1)
+        $("#text-preprocessed-1").html(preprocessedText1)
+        $("#text-raw-2").html(text2)
+        $("#text-preprocessed-2").html(preprocessedText2)
 
     }
 

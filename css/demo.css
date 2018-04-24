@@ -1,3 +1,41 @@
-#navbar{
+#navbar, #result{
     margin-bottom: 15px
 }
+
+#minimized-main-form, #result-window{
+    display: none
+}
+
+.text-container{
+    height: 100px;
+    overflow-y: scroll;
+    
+}
+
+.text-container{
+    height: 200px;
+    overflow-y: scroll;
+    
+}
+
+/* SCROLLBAR =========================================== */
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #fff; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+/* SCROLLBAR =========================================== */
