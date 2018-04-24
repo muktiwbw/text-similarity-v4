@@ -6,7 +6,10 @@ class RabinKarp{
         this.kgram2 = kgram2
 
         this.match = 0
-        this.matchArray = []
+        this.matchArray = {
+            t1:[],
+            t2:[]
+        }
 
         this.calculateMatches()
 
@@ -15,6 +18,12 @@ class RabinKarp{
     get result(){
 
         return this.match
+
+    }
+
+    get matchIndexes(){
+
+        return this.matchArray
 
     }
 
@@ -30,14 +39,8 @@ class RabinKarp{
 
                     if(rabinKarpClass.kgram1.strings[i] == rabinKarpClass.kgram2.strings[j]){
 
-                        rabinKarpClass.matchArray.push({
-                            h1:t1_hash,
-                            h2:t2_hash,
-                            s1:rabinKarpClass.kgram1.strings[i],
-                            s2:rabinKarpClass.kgram2.strings[j],
-                            i1:i,
-                            i2:j
-                        })
+                        rabinKarpClass.matchArray.t1.push(i)
+                        rabinKarpClass.matchArray.t2.push(j)
 
                         rabinKarpClass.match++
 

@@ -12,7 +12,7 @@
 <body>
     <nav id="navbar" class="teal lighten-2">
         <div class="nav-wrapper container">
-            <a href="#" class="brand-logo grey-text text-darken-4">Logo</a>
+            <a href="/" class="brand-logo grey-text text-darken-4">Logo</a>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger grey-text text-darken-4"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="#" class="grey-text text-darken-4"><i class="white-text material-icons">info_outline</i></a></li>
@@ -22,7 +22,7 @@
     <div class="container">
         <div class="row">
             <div class="col s12">
-                <h4 id="form-title">Calculate Rabin-Karp</h4>
+                <h4 id="form-title">Algoritma Rabin-Karp</h4>
             </div>
         </div>
         <div id="main-form" class="row">
@@ -53,7 +53,7 @@
                     </p>
                 </div>
                 <div class="col s12 right-align">
-                    <button id="calculate" class="waves-effect waves-light btn">Calculate</button>
+                    <button id="calculate" class="waves-effect waves-light btn">Hitung</button>
                 </div>
             </div>
         </div>
@@ -65,8 +65,6 @@
         <div id="result-window" class="row">
             <div class="col s12">
                 <h5 id="result"></h5>
-            </div>
-            <div class="col s12">
                 <h5>Preprocessing</h5>
                 <div class="row">
                     <div class="col s6">
@@ -77,6 +75,8 @@
                         <h6>Teks Uji Akhir</h6>
                         <p id="text-preprocessed-1" class="text-container"></p>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col s6">
                         <h6>Teks Pembanding Awal</h6>
                         <p id="text-raw-2" class="text-container"></p>
@@ -86,16 +86,30 @@
                         <p id="text-preprocessed-2" class="text-container"></p>
                     </div>
                 </div>
-                <h5>K-Gram</h5>
-                <div class="row">
-                    <div class="col s6">
-                        <h6>K-Gram Teks Uji</h6>
-                        <p id="k-gram-1" class="k-gram-container"></p>
+                <div id="kgram-section">
+                    <h5>K-Gram</h5>
+                    <div class="row">
+                        <div class="col s12">
+                            <h6>K-Gram Teks Uji</h6>
+                            <p id="k-gram-1" class="k-gram-container"></p>
+                        </div>
+                        <div class="col s12">
+                            <h6>K-Gram Teks Pembanding</h6>
+                            <p id="k-gram-2" class="k-gram-container"></p>
+                        </div>
                     </div>
-                    <div class="col s6">
-                        <h6>K-Gram Teks Pembanding</h6>
-                        <p id="k-gram-2" class="k-gram-container"></p>
+                    <h5>Rolling Hash</h5>
+                    <div class="row">
+                        <div class="col s12">
+                            <h6>Hash K-Gram Teks Uji</h6>
+                            <p id="rolling-hash-1" class="k-gram-container"></p>
+                        </div>
+                        <div class="col s12">
+                            <h6>Hash K-Gram Teks Pembanding</h6>
+                            <p id="rolling-hash-2" class="k-gram-container"></p>
+                        </div>
                     </div>
+                    <h5 id="rabin-karp-match"></h5>
                 </div>
             </div>
         </div>
