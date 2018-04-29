@@ -108,36 +108,63 @@
                         <p id="text-preprocessed-2" class="text-container"></p>
                     </div>
                 </div>
-                <div id="kgram-section">
-                    <h5>K-Gram</h5>
-                    <div class="row">
-                        <div class="col s12">
-                            <h6>K-Gram Teks Uji</h6>
-                            <p id="k-gram-1" class="k-gram-container"></p>
-                        </div>
-                        <div class="col s12">
-                            <h6>K-Gram Teks Pembanding</h6>
-                            <p id="k-gram-2" class="k-gram-container"></p>
-                        </div>
+                <div id="kgram-section" class="row algorithm-section">
+                    <div class="col s12">
+                        <h5>K-Gram</h5>
                     </div>
-                    <h5>Rolling Hash</h5>
-                    <div class="row">
-                        <div class="col s12">
-                            <h6>Hash K-Gram Teks Uji</h6>
-                            <p id="rolling-hash-1" class="k-gram-container"></p>
-                        </div>
-                        <div class="col s12">
-                            <h6>Hash K-Gram Teks Pembanding</h6>
-                            <p id="rolling-hash-2" class="k-gram-container"></p>
-                        </div>
+                    <div class="col s12">
+                        <h6>K-Gram Teks Uji</h6>
+                        <p id="k-gram-1" class="k-gram-container"></p>
                     </div>
-                    <h5 id="rabin-karp-match"></h5>
+                    <div class="col s12">
+                        <h6>K-Gram Teks Pembanding</h6>
+                        <p id="k-gram-2" class="k-gram-container"></p>
+                    </div>
+                    <div class="col s12">
+                        <h5>Rolling Hash</h5>
+                    </div>
+                    <div class="col s12">
+                        <h6>Hash K-Gram Teks Uji</h6>
+                        <p id="rolling-hash-1" class="k-gram-container"></p>
+                    </div>
+                    <div class="col s12">
+                        <h6>Hash K-Gram Teks Pembanding</h6>
+                        <p id="rolling-hash-2" class="k-gram-container"></p>
+                    </div>
+                </div>
+                <div id="rabin-karp-section" class="row algorithm-section">
+                    <div class="col 12">
+                        <h5>Perhitungan Rabin-Karp</h5>
+                    </div>
+                    <div class="col s12">
+                        <p id="rabin-karp-match"></p>
+                    </div>
+                    <div id="col-rabin-karp-match-1" class="col s4"></div>
+                    <div id="col-rabin-karp-match-2" class="col s4"></div>
+                    <div id="col-rabin-karp-match-3" class="col s4"></div>
+                    <div class="col s12">
+                        <h5>Dice Similarity Coeficients</h5>
+                    </div>
+                    <div id="dice-similarity-section" class="col s12">
+                        <p>\(S=\) Persentase kemiripan kedua teks</p>
+                        <p>\(C=\) Jumlah k-gram yang sama dari kedua teks \(=\) <span id="rabin-karp-c-val"></span></p>
+                        <p>\(A=\) Jumlah k-gram pada teks uji \(=\) <span id="rabin-karp-a-val"></span></p>
+                        <p>\(B=\) Jumlah k-gram pada teks pembanding \(=\) <span id="rabin-karp-b-val"></span></p>
+                        <p>$$S=\frac{2C}{A+B}$$</p>
+                    </div>
+                </div>
+                <div id="window-section" class="row algorithm-section">
+                    <div class="col s12">
+                        <h5>Pembentukan Window</h5>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     
     <script src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML"></script>
     <script src="js/materialize/materialize.min.js"></script>
     <script src="js/core/preprocess.js"></script>
     <script src="js/core/kgram.js"></script>

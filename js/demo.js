@@ -168,7 +168,7 @@ $(function(){
 
     function calculateRabinKarp(text1, text2){
 
-        let k = 30
+        let k = 10
         let hashBasePrime = 2
 
         let preprocess1 = new Preprocess(text1)
@@ -205,7 +205,22 @@ $(function(){
         $("#k-gram-2").html(kgramDisplayGenerator(kgramResult2.strings, rabinKarpIndexes.t2, kgramStringDisplay2))
         $("#rolling-hash-1").html(kgramDisplayGenerator(kgramResult1.hashes, rabinKarpIndexes.t1, kgramHashDisplay1))
         $("#rolling-hash-2").html(kgramDisplayGenerator(kgramResult2.hashes, rabinKarpIndexes.t2, kgramHashDisplay2))
-        $("#rabin-karp-match").html("Jumlah Hash dan String Sama: "+rabinKarpResult)
+        $("#rabin-karp-match").html("Jumlah k-gram hash yang sama adalah "+rabinKarpResult)
+        
+        let cols = 3
+        let rows = Math.ceil(rabinKarpIndexes.t1.length/cols)
+        let currentCol = 0
+        for (let i = 0; i < rabinKarpIndexes.t1.length; i++) {
+            if(i%rows == 0) currentCol++
+            $("#col-rabin-karp-match-"+currentCol).append("<p>"+(i+1)+".) ["+rabinKarpIndexes.t1[i]+"] "+kgramResult1.hashes[rabinKarpIndexes.t1[i]]+" == ["+rabinKarpIndexes.t2[i]+"] "+kgramResult2.hashes[rabinKarpIndexes.t2[i]]+"</p>")
+
+        }
+
+        $("span#rabin-karp-c-val").html(rabinKarpResult)
+        $("span#rabin-karp-a-val").html(kgramResult1.hashes.length)
+        $("span#rabin-karp-b-val").html(kgramResult2.hashes.length)
+        $("#dice-similarity-section").append("<p>S = ((2 * "+rabinKarpResult+") / ("+kgramResult1.hashes.length+" + "+kgramResult2.hashes.length+")) * 100%</p>")
+        $("#dice-similarity-section").append("<p>S = "+similarityResult.toFixed(2)+"%</p>")
 
     }
 

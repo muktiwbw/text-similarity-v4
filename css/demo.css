@@ -6,14 +6,24 @@
     display: none
 }
 
+#col-rabin-karp-match-1, #col-rabin-karp-match-2, #col-rabin-karp-match-3{
+    max-height: 460px;
+    overflow-y: scroll;
+    word-wrap: break-word;
+}
+
+span.mjx-chtml.MJXc-display{
+    text-align: left !important
+}
+
 .text-container{
-    max-height: 100px;
+    max-height: 400px;
     overflow-y: scroll;
     word-wrap: break-word;
 }
 
 .k-gram-container{
-    max-height: 200px;
+    max-height: 400px;
     overflow-y: scroll;
     word-wrap: break-word;
 }

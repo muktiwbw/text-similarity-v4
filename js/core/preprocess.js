@@ -26,8 +26,9 @@ class Preprocess{
     tokenize(){
 
         let tokens = new RegExp('[!"#$%&\'()*+,-./:;<=>?@[\\\]^_`{\|}~]', 'g')
+        let specialTokens = new RegExp('\\u201C|\\u201D|\\u2013|\\u2014', 'g')
 
-        this.text = this.text.replace(tokens, '')
+        this.text = this.text.replace(tokens, '').replace(specialTokens, '')
 
     }
 
