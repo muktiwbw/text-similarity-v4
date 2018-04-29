@@ -2,7 +2,7 @@
     margin-bottom: 15px
 }
 
-#minimized-main-form, #result-window{
+#minimized-main-form, #result-window, .pdf-field, .extract-message{
     display: none
 }
 

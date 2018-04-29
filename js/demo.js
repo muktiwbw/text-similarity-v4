@@ -1,5 +1,81 @@
 $(function(){
 
+    let pdfText = ["", ""]
+
+    $("button.extract-button").click(function(event){
+
+        event.preventDefault();
+
+        let form = $(this).parent()
+        let data = new FormData(form[0])
+        let buttonNumber = $(this).attr('data-submit-button-number')
+        let extractMessage = $('#extract-message-'+buttonNumber)
+        let textType = buttonNumber == 1 ? "uji" : "pembanding"
+        let swapButtonArea = $("button[data-field-swap-number="+buttonNumber+"]").parent()
+
+        let file = $("#pdf"+buttonNumber)[0].files[0]
+
+        if(file.size <= 500000){
+
+            $.ajax({
+                type: "POST",
+                enctype: 'multipart/form-data',
+                url: "/server/pdfextract.php",
+                data: data,
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 600000,
+                success: function (response) {
+    
+                    let data = JSON.parse(response)
+    
+                    if(data.status == 200){
+    
+                        pdfText[buttonNumber-1] = data.data
+                        extractMessage.html("Ekstraksi dokumen "+textType+" selesai - "+data.name)
+                        form.fadeOut("fast", function(){
+                            swapButtonArea.fadeOut("fast", function(){
+                                extractMessage.fadeIn("fast")
+                            })
+                        })
+    
+                    }else{
+                        alert(data.message)
+                    }
+    
+                },
+                error: function (e) {
+    
+                    $("#result").text(e.responseText);
+                    console.log("ERROR : ", e);
+                    $("#btnSubmit").prop("disabled", false);
+    
+                }
+            });
+            
+        }else{
+            alert("Error: Ukuran file tidak diizinkan lebih dari 500KB")
+        }
+
+    })
+
+    $("button.swap-button").click(function(){
+
+        let swapTo = $(this).attr("data-field-swap-to")
+        let swapNumber = $(this).attr("data-field-swap-number")
+        let swapElement = $("[data-swap-toggle=field-"+swapTo+"-"+swapNumber+"]")
+        let currentElement = $(".data-"+swapNumber).not(swapElement)
+        let newSwapTo = swapTo == "file" ? "textarea" : "file"
+
+        currentElement.fadeOut("fast", function(){
+            swapElement.fadeIn("fast")
+        })        
+        $(this).attr("data-field-swap-to", newSwapTo)
+
+
+    })
+
     $("input.algorithm").click(function(){
 
         let name = $(this).next().html()
@@ -48,28 +124,32 @@ $(function(){
 
     $("#calculate").click(function(){
 
-        $("#main-form").slideUp("slow", function(){
-            $("#result-window").fadeIn("slow")
-            $("#minimized-main-form").fadeIn("slow")
-            $("#minimized-button").find(".material-icons").html("keyboard_arrow_down")
-        })
-
-        let text1 = $("#text1").val()
-        let text2 = $("#text2").val()
-        let algorithm = $("input[name=algorithm]:checked").val()
+        if($("#text1").val().length <= 4000 && $("#text2").val().length <= 4000){
+            $("#main-form").slideUp("slow", function(){
+                $("#result-window").fadeIn("slow")
+                $("#minimized-main-form").fadeIn("slow")
+                $("#minimized-button").find(".material-icons").html("keyboard_arrow_down")
+            })
         
-        switch (algorithm) {
-            case "rabinkarp":
-                calculateRabinKarp(text1, text2)
-                break;
-        
-            case "winnowing":
-                calculateWinnowing(text1, text2)
-                break;
-
-            case "levenshtein":
-                calculateLevenshteinDistance(text1, text2)
-                break;
+            let text1 = pdfText[0] != "" ? pdfText[0] : $("#text1").val()
+            let text2 = pdfText[1] != "" ? pdfText[1] : $("#text2").val()
+            let algorithm = $("input[name=algorithm]:checked").val()
+            
+            switch (algorithm) {
+                case "rabinkarp":
+                    calculateRabinKarp(text1, text2)
+                    break;
+            
+                case "winnowing":
+                    calculateWinnowing(text1, text2)
+                    break;
+    
+                case "levenshtein":
+                    calculateLevenshteinDistance(text1, text2)
+                    break;
+            }
+        }else{
+            alert("Error: Maksimal teks input tidak diizinkan melebihi 4000 karakter")
         }
 
     })
@@ -88,7 +168,7 @@ $(function(){
 
     function calculateRabinKarp(text1, text2){
 
-        let k = 10
+        let k = 30
         let hashBasePrime = 2
 
         let preprocess1 = new Preprocess(text1)

@@ -20,6 +20,8 @@ class DiceSimilarityCoeficients{
 
     calculateSimilarity(){
 
+        console.log('matches: '+this.matches+', k1: '+this.length1+', k2: '+this.length2)
+
         this.similarity =  ((2 * this.matches) / (this.length1 + this.length2)) * 100
 
     }

@@ -29,6 +29,8 @@ class RabinKarp{
 
     calculateMatches(){
 
+        let debug = []
+
         let rabinKarpClass = this
 
         rabinKarpClass.kgram1.hashes.forEach(function(t1_hash, i) {
@@ -42,15 +44,17 @@ class RabinKarp{
                         rabinKarpClass.matchArray.t1.push(i)
                         rabinKarpClass.matchArray.t2.push(j)
 
-                        rabinKarpClass.match++
-
+                        rabinKarpClass.match = rabinKarpClass.match + 1
+                        debug.push(rabinKarpClass.match+". ["+i+"] ("+t1_hash+") "+rabinKarpClass.kgram1.strings[i]+" == ["+j+"] ("+t1_hash+") "+rabinKarpClass.kgram1.strings[i])
                     }
-
+                    
                 }
-
+                
             })
-
+            
         });
+
+        console.log(debug)
 
     }
 

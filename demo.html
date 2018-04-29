@@ -27,13 +27,35 @@
         </div>
         <div id="main-form" class="row">
             <div class="col s12">
-                <div class="input-field col s12">
+                <div class="input-field col s12 data-1" data-swap-toggle="field-textarea-1">
                     <textarea id="text1" class="materialize-textarea"></textarea>
                     <label for="textarea1">Dokumen Uji</label>
                 </div>
-                <div class="input-field col s12">
+                <form class="col s12 data-1 pdf-field" data-swap-toggle="field-file-1" enctype="multipart/form-data">
+                    <p>Upload File PDF Uji</p>
+                    <input type="file" name="pdf" id="pdf1">
+                    <button class="btn waves-effect waves-light extract-button" type="submit" data-submit-button-number="1">Extract</button>
+                </form>
+                <div class="col s12">
+                    <p class="extract-message" id="extract-message-1"></p>
+                </div>
+                <div class="co s12 right-align">
+                    <button class="btn waves-effect waves-light swap-button" data-field-swap-to="file" data-field-swap-number="1"><i class="material-icons">swap_horiz</i></button>
+                </div>
+                <div class="input-field col s12 data-2" data-swap-toggle="field-textarea-2">
                     <textarea id="text2" class="materialize-textarea"></textarea>
                     <label for="textarea1">Dokumen Pembanding</label>
+                </div>
+                <form class="col s12 data-2 pdf-field" data-swap-toggle="field-file-2" enctype="multipart/form-data">
+                    <p>Upload File PDF Pembanding</p>
+                    <input type="file" name="pdf" id="pdf2">
+                    <button class="btn waves-effect waves-light extract-button" type="submit" data-submit-button-number="2">Extract</button>
+                </form>
+                <div class="col s12">
+                    <p class="extract-message" id="extract-message-2"></p>
+                </div>
+                <div class="co s12 right-align">
+                    <button class="btn waves-effect waves-light swap-button" data-field-swap-to="file" data-field-swap-number="2"><i class="material-icons">swap_horiz</i></button>
                 </div>
                 <div class="col s12">
                     <p>
