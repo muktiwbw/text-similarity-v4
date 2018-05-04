@@ -35,9 +35,10 @@ $(function(){
                         pdfText[buttonNumber-1] = data.data
                         extractMessage.html("Ekstraksi dokumen "+textType+" selesai - "+data.name)
                         form.fadeOut("fast", function(){
-                            swapButtonArea.fadeOut("fast", function(){
-                                extractMessage.fadeIn("fast")
-                            })
+                            extractMessage.parent().addClass("data-"+buttonNumber)
+                            extractMessage.parent().attr("data-swap-toggle", "field-file-"+buttonNumber)
+                            extractMessage.parent().fadeIn("fast")
+                            form.remove()
                         })
     
                     }else{
@@ -125,14 +126,9 @@ $(function(){
     $("#calculate").click(function(){
 
         if($("#text1").val().length <= 4000 && $("#text2").val().length <= 4000){
-            $("#main-form").slideUp("slow", function(){
-                $("#result-window").fadeIn("slow")
-                $("#minimized-main-form").fadeIn("slow")
-                $("#minimized-button").find(".material-icons").html("keyboard_arrow_down")
-            })
         
-            let text1 = pdfText[0] != "" ? pdfText[0] : $("#text1").val()
-            let text2 = pdfText[1] != "" ? pdfText[1] : $("#text2").val()
+            let text1 = $("[data-swap-toggle=field-textarea-1]").css("display") == "none" ? pdfText[0] : $("#text1").val()
+            let text2 = $("[data-swap-toggle=field-textarea-2]").css("display") == "none" ? pdfText[1] : $("#text2").val()
             let algorithm = $("input[name=algorithm]:checked").val()
             
             switch (algorithm) {
@@ -148,6 +144,13 @@ $(function(){
                     calculateLevenshteinDistance(text1, text2)
                     break;
             }
+
+            $("#main-form").slideUp("slow", function(){
+                $("#result-window").fadeIn("slow")
+                $("#minimized-main-form").fadeIn("slow")
+                $("#minimized-button").find(".material-icons").html("keyboard_arrow_down")
+            })
+
         }else{
             alert("Error: Maksimal teks input tidak diizinkan melebihi 4000 karakter")
         }
@@ -210,17 +213,24 @@ $(function(){
         let cols = 3
         let rows = Math.ceil(rabinKarpIndexes.t1.length/cols)
         let currentCol = 0
+        for (let i = 0; i < cols; i++) {
+            $("#col-rabin-karp-match-"+i).html("")
+        }
         for (let i = 0; i < rabinKarpIndexes.t1.length; i++) {
-            if(i%rows == 0) currentCol++
-            $("#col-rabin-karp-match-"+currentCol).append("<p>"+(i+1)+".) ["+rabinKarpIndexes.t1[i]+"] "+kgramResult1.hashes[rabinKarpIndexes.t1[i]]+" == ["+rabinKarpIndexes.t2[i]+"] "+kgramResult2.hashes[rabinKarpIndexes.t2[i]]+"</p>")
+            $("#col-rabin-karp-match-"+((i%3)+1)).append("<p>"+(i+1)+".) ["+rabinKarpIndexes.t1[i]+"] "+kgramResult1.hashes[rabinKarpIndexes.t1[i]]+" == ["+rabinKarpIndexes.t2[i]+"] "+kgramResult2.hashes[rabinKarpIndexes.t2[i]]+"</p>")
 
         }
 
         $("span#rabin-karp-c-val").html(rabinKarpResult)
         $("span#rabin-karp-a-val").html(kgramResult1.hashes.length)
         $("span#rabin-karp-b-val").html(kgramResult2.hashes.length)
-        $("#dice-similarity-section").append("<p>S = ((2 * "+rabinKarpResult+") / ("+kgramResult1.hashes.length+" + "+kgramResult2.hashes.length+")) * 100%</p>")
-        $("#dice-similarity-section").append("<p>S = "+similarityResult.toFixed(2)+"%</p>")
+        $(".appended-dice-similarity-section").remove()
+        $("#dice-similarity-section").append("<p class=\"appended-dice-similarity-section\">S = ((2 * "+rabinKarpResult+") / ("+kgramResult1.hashes.length+" + "+kgramResult2.hashes.length+")) * 100%</p>")
+        $("#dice-similarity-section").append("<p class=\"appended-dice-similarity-section\">S = "+similarityResult.toFixed(2)+"%</p>")
+
+        $(".algorithm-section").hide()
+        $("#kgram-section").show()
+        $("#rabin-karp-section").show()
 
     }
 
@@ -272,6 +282,18 @@ $(function(){
         $("#k-gram-2").html(kgramResult2.strings.join(", "))
         $("#rolling-hash-1").html(kgramResult1.hashes.join(", "))
         $("#rolling-hash-2").html(kgramResult2.hashes.join(", "))
+
+        windowResult1.forEach(function(val, i) {
+            $("#winnowing-window-section-1").append("<p class=\"appended-winnowing-window\">"+(i+1)+".) [ "+val.join(", ")+" ]</p>")
+        });
+
+        windowResult2.forEach(function(val, i) {
+            $("#winnowing-window-section-2").append("<p class=\"appended-winnowing-window\">"+(i+1)+".) [ "+val.join(", ")+" ]</p>")
+        });
+
+        $(".algorithm-section").hide()
+        $("#kgram-section").show()
+        $("#winnowing-section").show()
 
     }
 

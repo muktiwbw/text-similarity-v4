@@ -36,10 +36,10 @@
                     <input type="file" name="pdf" id="pdf1">
                     <button class="btn waves-effect waves-light extract-button" type="submit" data-submit-button-number="1">Extract</button>
                 </form>
-                <div class="col s12">
-                    <p class="extract-message" id="extract-message-1"></p>
+                <div class="col s12 extract-message">
+                    <p id="extract-message-1"></p>
                 </div>
-                <div class="co s12 right-align">
+                <div class="col s12 right-align">
                     <button class="btn waves-effect waves-light swap-button" data-field-swap-to="file" data-field-swap-number="1"><i class="material-icons">swap_horiz</i></button>
                 </div>
                 <div class="input-field col s12 data-2" data-swap-toggle="field-textarea-2">
@@ -51,10 +51,10 @@
                     <input type="file" name="pdf" id="pdf2">
                     <button class="btn waves-effect waves-light extract-button" type="submit" data-submit-button-number="2">Extract</button>
                 </form>
-                <div class="col s12">
-                    <p class="extract-message" id="extract-message-2"></p>
+                <div class="col s12 extract-message">
+                    <p id="extract-message-2"></p>
                 </div>
-                <div class="co s12 right-align">
+                <div class="col s12 right-align">
                     <button class="btn waves-effect waves-light swap-button" data-field-swap-to="file" data-field-swap-number="2"><i class="material-icons">swap_horiz</i></button>
                 </div>
                 <div class="col s12">
@@ -139,9 +139,13 @@
                     <div class="col s12">
                         <p id="rabin-karp-match"></p>
                     </div>
-                    <div id="col-rabin-karp-match-1" class="col s4"></div>
-                    <div id="col-rabin-karp-match-2" class="col s4"></div>
-                    <div id="col-rabin-karp-match-3" class="col s4"></div>
+                    <div id="col-rabin-karp-match" class="col s12">
+                        <div class="row">
+                            <div id="col-rabin-karp-match-1" class="col s4"></div>
+                            <div id="col-rabin-karp-match-2" class="col s4"></div>
+                            <div id="col-rabin-karp-match-3" class="col s4"></div>
+                        </div>
+                    </div>
                     <div class="col s12">
                         <h5>Dice Similarity Coeficients</h5>
                     </div>
@@ -153,10 +157,18 @@
                         <p>$$S=\frac{2C}{A+B}$$</p>
                     </div>
                 </div>
-                <div id="window-section" class="row algorithm-section">
+                <div id="winnowing-section" class="row algorithm-section">
                     <div class="col s12">
                         <h5>Pembentukan Window</h5>
                     </div>
+                    <div class="col s12">
+                        <h6>Window K-gram Teks Uji</h6>
+                    </div>
+                    <div id="winnowing-window-section-1" class="col s12 center-align"></div>
+                    <div class="col s12">
+                        <h6>Window K-gram Teks Pembanding</h6>
+                    </div>
+                    <div id="winnowing-window-section-2" class="col s12 center-align"></div>
                 </div>
             </div>
         </div>
