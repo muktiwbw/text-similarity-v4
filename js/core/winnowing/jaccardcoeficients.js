@@ -60,3 +60,7 @@ class JaccardCoeficients{
     }
 
 }
+
+export function init_jaccardcoeficients(fingerprint1, fingerprint2){
+    return new JaccardCoeficients(fingerprint1, fingerprint2)
+}

@@ -59,3 +59,7 @@ class LevenshteinDistance{
     }
 
 }
+
+export function init_levenshteindistance(preprocessedText1, preprocessedText2){
+    return new LevenshteinDistance(preprocessedText1, preprocessedText2)
+}

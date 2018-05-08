@@ -35,3 +35,7 @@ class Winnowing{
     }
 
 }
+
+export function init_winnowing(windowResult1){
+    return new Winnowing(windowResult1)
+}

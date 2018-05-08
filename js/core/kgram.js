@@ -86,3 +86,7 @@ class Kgram{
     }
 
 }
+
+export function init_kgram(k, hashBasePrime, preprocessedText1){
+    return new Kgram(k, hashBasePrime, preprocessedText1)
+}

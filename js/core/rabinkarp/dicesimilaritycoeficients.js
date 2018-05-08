@@ -27,3 +27,7 @@ class DiceSimilarityCoeficients{
     }
 
 }
+
+export function init_dicesimilaritycoeficients(kgramResult1_hashes_length, kgramResult2_hashes_length, rabinKarpResult){
+    return new DiceSimilarityCoeficients(kgramResult1_hashes_length, kgramResult2_hashes_length, rabinKarpResult)
+}

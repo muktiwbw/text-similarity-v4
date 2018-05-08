@@ -43,3 +43,7 @@ class Window{
     }
 
 }
+
+export function init_window(w, kgramResult1){
+    return new Window(w, kgramResult1)
+}

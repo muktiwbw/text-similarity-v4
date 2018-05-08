@@ -59,3 +59,7 @@ class RabinKarp{
     }
 
 }
+
+export function init_rabinkarp(kgramResult1, kgramResult2){
+    return new RabinKarp(kgramResult1, kgramResult2)
+}

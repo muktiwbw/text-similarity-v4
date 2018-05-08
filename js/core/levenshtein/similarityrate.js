@@ -24,3 +24,7 @@ class SimilarityRate{
     }
 
 }
+
+export function init_similarityrate(levenshteinResult_distance, levenshteinResult_maxLength){
+    return new SimilarityRate(levenshteinResult_distance, levenshteinResult_maxLength)
+}
