@@ -1,8 +1,26 @@
+#float-background{
+    background: rgba(0, 0, 0, .5);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+    display: none;
+}
+
+#float-input{
+    background: white;
+    position: fixed;
+    width: 700px;
+    margin-left: 50%;
+    margin-top: 20%;
+    transform: translate(-50%, -50%);
+}
+
 #navbar, #result{
     margin-bottom: 15px
 }
 
-#minimized-main-form, #result-window, .pdf-field, .extract-message{
+#minimized-main-form, #result-window, .pdf-field, .extract-message, #setting-section{
     display: none
 }
 
@@ -28,10 +46,21 @@ span.mjx-chtml.MJXc-display{
     word-wrap: break-word;
 }
 
+#levenshtein-matrice-section{
+    max-height: 500px;
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+
+.setting-option{
+    cursor: pointer;
+}
+
 /* SCROLLBAR =========================================== */
 /* width */
 ::-webkit-scrollbar {
     width: 5px;
+    height: 5px;
 }
 
 /* Track */

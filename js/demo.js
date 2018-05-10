@@ -10,9 +10,31 @@ import { init_similarityrate } from './core/levenshtein/similarityrate'
 
 let pdfText = ["", ""]
 
+$(".setting-option").click(function(){
+    $("#float-title").html($(this).attr("data-option-name"))
+    $("#float-field").val($(this).find("span.new.badge").html())
+    $("#float-background").fadeIn()
+    $("#float-field").select().focus()
+})
+
+$("#float-close").click(function(){
+    $("#float-background").fadeOut()
+})
+
+$("#float-update").click(function(event){
+    event.preventDefault()
+    $("p[data-option-name="+$("#float-title").html()+"]").find("span.new.badge").html($("#float-field").val())
+    $("#float-background").fadeOut()
+    $("#calculate").focus()
+})
+
+$("#setting-toggle-button").click(function(){
+    $("#setting-section").slideToggle()
+})
+
 $("button.extract-button").click(function(event){
 
-    event.preventDefault();
+    event.preventDefault()
 
     let form = $(this).parent()
     let data = new FormData(form[0])
@@ -92,16 +114,26 @@ $("input.algorithm").click(function(){
     $("#form-title").html("Algoritma "+name)
 
     switch ($(this).val()) {
-        case "rabinkarp":
-            $("#kgram-section").removeClass("hide")
-            $("#rabin-karp-match").removeClass("hide")
+        case 'rabinkarp':
+            $("#stemming-check").prop("checked", true)
+            $("#whitespaces-check").prop("checked", true)
+            $("#whitespaces-check").prop("disabled", false)
+            $("#sorting-check").prop("checked", false)
+            $("#sorting-check").prop("disabled", true)
             break;
-        case "winnowing":
-            $("#kgram-section").removeClass("hide")
-            $("#rabin-karp-match").addClass("hide")
+        case 'winnowing':
+            $("#stemming-check").prop("checked", true)
+            $("#whitespaces-check").prop("checked", false)
+            $("#whitespaces-check").prop("disabled", false)
+            $("#sorting-check").prop("checked", false)
+            $("#sorting-check").prop("disabled", true)
             break;
-        case "levenshtein":
-            
+        case 'levenshtein':
+            $("#stemming-check").prop("checked", true)
+            $("#whitespaces-check").prop("checked", false)
+            $("#whitespaces-check").prop("disabled", true)
+            $("#sorting-check").prop("checked", true)
+            $("#sorting-check").prop("disabled", false)
             break;
     }
 
@@ -131,7 +163,7 @@ function switchArrowIcon(){
     }
 }
 
-$("#calculate").click(function(){
+$("#calculate").click(function(event){
 
     if($("#text1").val().length <= 4000 && $("#text2").val().length <= 4000){
     
@@ -177,16 +209,33 @@ function kgramDisplayGenerator(kgramResult, rabinKarpIndexes, kgramDisplay){
     return kgramDisplay
 }
 
+function calculateTime(start, end){
+    return ((end.getTime() - start.getTime()) / 1000).toFixed(3)
+}
+
 function calculateRabinKarp(text1, text2){
 
-    let k = 10
-    let hashBasePrime = 2
+    let stemming = $("#stemming-check").prop("checked")
+    let whitespaces = $("#whitespaces-check").prop("checked")
+    let sorting = $("#sorting-check").prop("checked")
+    let k = $("p[data-option-toggle=kgram]").find("span.new.badge").html()
+    let hashBasePrime = $("p[data-option-toggle=base-prime]").find("span.new.badge").html()
+    let start;
+    let end;
 
-    let preprocess1 = init_preprocess(text1)
-    let preprocess2 = init_preprocess(text2)
+    start = new Date()
+    
+    let preprocess1 = init_preprocess(text1, whitespaces, stemming)
+    let preprocess2 = init_preprocess(text2, whitespaces, stemming)
+    
+    end = new Date()
+
+    let preprocessTime = calculateTime(start, end)
 
     let preprocessedText1 = preprocess1.result
     let preprocessedText2 = preprocess2.result
+
+    start = new Date()
 
     let kgram1 = init_kgram(k, hashBasePrime, preprocessedText1)
     let kgram2 = init_kgram(k, hashBasePrime, preprocessedText2)
@@ -199,6 +248,11 @@ function calculateRabinKarp(text1, text2){
     let rabinKarpResult = rabinKarp.result
 
     let similarity = init_dicesimilaritycoeficients(kgramResult1.hashes.length, kgramResult2.hashes.length, rabinKarpResult)
+
+    end = new Date()
+
+    let algorithmTime = calculateTime(start, end)
+
     let similarityResult = similarity.result
 
     let kgramStringDisplay1 = ""
@@ -208,6 +262,11 @@ function calculateRabinKarp(text1, text2){
     let rabinKarpIndexes = rabinKarp.matchIndexes
 
     $("#result").html("Persentase Kemiripan: "+similarityResult.toFixed(2)+"%")
+    $("#preprocess-time").html(preprocessTime)
+    $("#algorithm-time").html(algorithmTime)
+    $("#preprocess-title-param").html("("+(stemming ? "Stemming" : "<strike>Stemming</strike>")+", "+(whitespaces ? "Whitespaces" : "<strike>Whitespaces</strike>")+", "+(sorting ? "Sorting" : "<strike>Sorting</strike>")+")")
+    $("#kgram-title-param").html("(K = "+k+")")
+    $("#hash-title-param").html("(Basis Bilangan Prima = "+hashBasePrime+")")
     $("#text-raw-1").html(text1)
     $("#text-preprocessed-1").html(preprocessedText1)
     $("#text-raw-2").html(text2)
@@ -222,7 +281,7 @@ function calculateRabinKarp(text1, text2){
     let rows = Math.ceil(rabinKarpIndexes.t1.length/cols)
     let currentCol = 0
     for (let i = 0; i < cols; i++) {
-        $("#col-rabin-karp-match-"+i).html("")
+        $("#col-rabin-karp-match-"+(i+1)).html("")
     }
     for (let i = 0; i < rabinKarpIndexes.t1.length; i++) {
         $("#col-rabin-karp-match-"+((i%3)+1)).append("<p>"+(i+1)+".) ["+rabinKarpIndexes.t1[i]+"] "+kgramResult1.hashes[rabinKarpIndexes.t1[i]]+" == ["+rabinKarpIndexes.t2[i]+"] "+kgramResult2.hashes[rabinKarpIndexes.t2[i]]+"</p>")
@@ -244,15 +303,28 @@ function calculateRabinKarp(text1, text2){
 
 function calculateWinnowing(text1, text2){
 
-    let k = 10
-    let w = 7
-    let hashBasePrime = 2
+    let stemming = $("#stemming-check").prop("checked")
+    let whitespaces = $("#whitespaces-check").prop("checked")
+    let sorting = $("#sorting-check").prop("checked")
+    let k = $("p[data-option-toggle=kgram]").find("span.new.badge").html()
+    let hashBasePrime = $("p[data-option-toggle=base-prime]").find("span.new.badge").html()
+    let w = $("p[data-option-toggle=window]").find("span.new.badge").html()
+    let start;
+    let end;
 
-    let preprocess1 = init_preprocess(text1, false)
-    let preprocess2 = init_preprocess(text2, false)
+    start = new Date()
+
+    let preprocess1 = init_preprocess(text1, whitespaces, stemming)
+    let preprocess2 = init_preprocess(text2, whitespaces, stemming)
+
+    end = new Date()
+
+    let preprocessTime = calculateTime(start, end)
 
     let preprocessedText1 = preprocess1.result
     let preprocessedText2 = preprocess2.result
+
+    start = new Date()
 
     let kgram1 = init_kgram(k, hashBasePrime, preprocessedText1)
     let kgram2 = init_kgram(k, hashBasePrime, preprocessedText2)
@@ -274,6 +346,10 @@ function calculateWinnowing(text1, text2){
 
     let similarity = init_jaccardcoeficients(fingerprint1, fingerprint2)
 
+    end = new Date()
+
+    let algorithmTime = calculateTime(start, end)
+
     let similarityResult = similarity.result
 
     let kgramStringDisplay1 = ""
@@ -282,6 +358,12 @@ function calculateWinnowing(text1, text2){
     let kgramHashDisplay2 = ""
 
     $("#result").html("Persentase Kemiripan: "+similarityResult.toFixed(2)+"%")
+    $("#preprocess-time").html(preprocessTime)
+    $("#algorithm-time").html(algorithmTime)
+    $("#preprocess-title-param").html("("+(stemming ? "Stemming" : "<strike>Stemming</strike>")+", "+(whitespaces ? "Whitespaces" : "<strike>Whitespaces</strike>")+", "+(sorting ? "Sorting" : "<strike>Sorting</strike>")+")")
+    $("#kgram-title-param").html("(K = "+k+")")
+    $("#hash-title-param").html("(Basis Bilangan Prima = "+hashBasePrime+")")
+    $("#window-title-param").html("(Window = "+w+")")
     $("#text-raw-1").html(text1)
     $("#text-preprocessed-1").html(preprocessedText1)
     $("#text-raw-2").html(text2)
@@ -291,6 +373,10 @@ function calculateWinnowing(text1, text2){
     $("#rolling-hash-1").html(kgramResult1.hashes.join(", "))
     $("#rolling-hash-2").html(kgramResult2.hashes.join(", "))
 
+    $("#winnowing-window-section-1").html("")
+    $("#winnowing-window-section-2").html("")
+    $(".appended-jaccard-section").remove()
+
     windowResult1.forEach(function(val, i) {
         $("#winnowing-window-section-1").append("<p class=\"appended-winnowing-window\">"+(i+1)+".) [ "+val.join(", ")+" ]</p>")
     });
@@ -298,6 +384,12 @@ function calculateWinnowing(text1, text2){
     windowResult2.forEach(function(val, i) {
         $("#winnowing-window-section-2").append("<p class=\"appended-winnowing-window\">"+(i+1)+".) [ "+val.join(", ")+" ]</p>")
     });
+
+    $("#winnowing-fingerprint-section-1").html("<p>"+fingerprint1.join(", ")+"</p>")
+    $("#winnowing-fingerprint-section-2").html("<p>"+fingerprint2.join(", ")+"</p>")
+
+    $("#jaccard-section").append("<p class=\"appended-jaccard-section\">S = ("+similarity.intersection.length+" / "+similarity.union.length+") * 100%</p>")
+    $("#jaccard-section").append("<p class=\"appended-jaccard-section\">S = "+similarityResult+"%</p>")
 
     $(".algorithm-section").hide()
     $("#kgram-section").show()
@@ -307,20 +399,91 @@ function calculateWinnowing(text1, text2){
 
 function calculateLevenshteinDistance(text1, text2){
 
-    let preprocess1 = init_preprocess(text1, true, true)
-    let preprocess2 = init_preprocess(text2, true, true)
-
+    let stemming = $("#stemming-check").prop("checked")
+    let whitespaces = $("#whitespaces-check").prop("checked")
+    let sorting = $("#sorting-check").prop("checked")
+    let start;
+    let end;
+    
+    start = new Date()
+    
+    let preprocess1 = init_preprocess(text1, true, stemming, sorting)
+    let preprocess2 = init_preprocess(text2, true, stemming, sorting)
+    
+    end = new Date()
+    
+    let preprocessTime = calculateTime(start, end)
+    
     let preprocessedText1 = preprocess1.result
     let preprocessedText2 = preprocess2.result
-
+    
+    start = new Date()
+    
     let levenshtein = init_levenshteindistance(preprocessedText1, preprocessedText2)
-
+    
     let levenshteinResult = levenshtein.result
-
+    
     let similarity = init_similarityrate(levenshteinResult.distance, levenshteinResult.maxLength)
+    
+    end = new Date()
+    
+    let algorithmTime = calculateTime(start, end)
 
     let similarityResult = similarity.result
 
     $("#result").html("Persentase Kemiripan: "+similarityResult.toFixed(2)+"%")
+    $("#preprocess-time").html(preprocessTime)
+    $("#algorithm-time").html(algorithmTime)
+    $("#preprocess-title-param").html("("+(stemming ? "Stemming" : "<strike>Stemming</strike>")+", "+(whitespaces ? "Whitespaces" : "<strike>Whitespaces</strike>")+", "+(sorting ? "Sorting" : "<strike>Sorting</strike>")+")")
+    $("#text-raw-1").html(text1)
+    $("#text-preprocessed-1").html(preprocessedText1)
+    $("#text-raw-2").html(text2)
+    $("#text-preprocessed-2").html(preprocessedText2)
+    
+    let splittedText1 = preprocessedText1.split(" ")
+    let splittedText2 = preprocessedText2.split(" ")
+    let matrice = $("#levenshtein-matrice-section").find("table")
+    
+    matrice.html("")
+    $(".appended-similarity-rate-section").remove()
+
+    for(let i = 0; i < splittedText2.length + 2; i++){
+        
+        let row = ""
+
+        for(let j = 0; j < splittedText1.length + 2; j++){
+
+            let value
+            let align = "center"
+            let color = ""
+
+            if(i == 0 && j >= 2){
+                value = "<b>"+splittedText1[j - 2]+"</b>"
+            }else if(j == 0 && i >= 2){
+                value = "<b>"+splittedText2[i - 2]+"</b>"
+                align = "left"
+            }else if((j == 0 && i == 0) || (j == 0 && i == 1) || (j == 1 && i == 0)){
+                value = ""
+            }else{
+                value = levenshtein.matrice[i - 1][j - 1]
+                color = (i == (splittedText2.length + 1)) && (j == (splittedText1.length + 1)) ? " teal lighten-2 white-text" : ""
+            }
+
+            row += "<td class=\""+align+"-align"+color+"\">"+value+"</td>"
+
+        }
+
+        matrice.append("<tr>"+row+"</tr>")
+
+    }
+
+    $("#levenshtein-result-section").html(levenshteinResult.distance)
+    $("#similarity-rate-a-section").html(levenshteinResult.distance)
+    $("#similarity-rate-b-section").html(levenshteinResult.maxLength)
+    $("#similarity-rate-section").append("<p class=\"appended-similarity-rate-section\">S = (1 - ("+levenshteinResult.distance+" / "+levenshteinResult.maxLength+")) * 100%</p>")
+    $("#similarity-rate-section").append("<p class=\"appended-similarity-rate-section\">S = "+similarityResult+"%</p>")
+
+    $(".algorithm-section").hide()
+    $("#levenshtein-section").show()
 
 }

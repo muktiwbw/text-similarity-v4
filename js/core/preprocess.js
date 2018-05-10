@@ -1,13 +1,14 @@
 class Preprocess{
     
-    constructor(text, includeSpaceBetweenWords = true, useSort = false){
+    constructor(text, includeSpaceBetweenWords = true, useStem = true, useSort = false){
 
         this.text = text
 
         this.casefold()
         this.tokenize()
         this.filter()
-        this.stem()
+        
+        if(useStem) this.stem()
         if(!includeSpaceBetweenWords) this.removeWhitespaces()
         if(useSort) this.sort()
         

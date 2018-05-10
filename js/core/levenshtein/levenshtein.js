@@ -10,7 +10,7 @@ class LevenshteinDistance{
         this.initMatrice()
         this.populateMatrice()
 
-        this.distance = this.matrice[this.text1.length][this.text2.length]
+        this.distance = this.matrice[this.text2.length][this.text1.length]
 
     }
 
@@ -22,11 +22,11 @@ class LevenshteinDistance{
 
     initMatrice(){
 
-        for(let i = 0; i < this.text1.length + 1; i++){
+        for(let i = 0; i < this.text2.length + 1; i++){
 
             let tempMatrice = []
 
-            for(let j = 0; j < this.text2.length + 1; j++){
+            for(let j = 0; j < this.text1.length + 1; j++){
 
                 if(i == 0){
                     tempMatrice.push(j)
