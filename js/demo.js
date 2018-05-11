@@ -130,7 +130,7 @@ $("input.algorithm").click(function(){
             break;
         case 'levenshtein':
             $("#stemming-check").prop("checked", true)
-            $("#whitespaces-check").prop("checked", false)
+            $("#whitespaces-check").prop("checked", true)
             $("#whitespaces-check").prop("disabled", true)
             $("#sorting-check").prop("checked", true)
             $("#sorting-check").prop("disabled", false)

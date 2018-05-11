@@ -7,10 +7,11 @@ class Preprocess{
         this.casefold()
         this.tokenize()
         this.filter()
-        
+
         if(useStem) this.stem()
         if(!includeSpaceBetweenWords) this.removeWhitespaces()
         if(useSort) this.sort()
+        console.log(this.text)
         
     }
 
@@ -82,6 +83,6 @@ class Preprocess{
 
 }
 
-export function init_preprocess(text, includeSpaceBetweenWords = true, useSort = false){
-    return new Preprocess(text, includeSpaceBetweenWords, useSort)
+export function init_preprocess(text, includeSpaceBetweenWords = true, useStem = true, useSort = false){
+    return new Preprocess(text, includeSpaceBetweenWords, useStem, useSort)
 }
